@@ -30,6 +30,10 @@ chapters = {}
 with open(save_path, "w", encoding="utf-8") as f:
     for a in a_tags:
         try:
+            href = str(a.get("href"))
+
+            if href.startswith("javascript"):
+                continue
             chapter_response = requests.get(
                 start_url + a.get("href"),
                 headers=headers,
@@ -39,9 +43,9 @@ with open(save_path, "w", encoding="utf-8") as f:
             content = chapter_soup.find("div", id="chaptercontent").text
 
             # 删除章节内容中的“请收藏本站”
-            endIndex = content.text.find("请收藏本站")
+            endIndex = content.find("请收藏本站")
             content = content[:endIndex]
-            
+
             print("下载章节 - ", title)
 
             f.write(title + "\n" + content + "\n")

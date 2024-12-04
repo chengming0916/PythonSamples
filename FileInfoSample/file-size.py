@@ -10,7 +10,9 @@ def get_files(dir: str) -> list:
         return file_list
 
     if os.path.isdir(dir):
-        for f in os.listdir(dir):
+        # for f in os.listdir(dir): # 简单
+        # for f in os.walk(dir):    # 生成目录树中的文件夹名和文件名
+        for f in os.scandir(dir):   # 高效
             if os.path.isdir(f):
                 file_list.append(get_files(f))
             file_list.append(os.path.join(dir, f))
